@@ -12,7 +12,7 @@ using ApiWebToken.Models;
 
 namespace ApiWebToken.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [RoutePrefix("api/Perfils")]
     public class PerfilsController : ApiController
     {

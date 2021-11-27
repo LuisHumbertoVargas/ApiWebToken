@@ -1,4 +1,3 @@
-
 namespace ApiWebToken.Models
 {
     using Newtonsoft.Json;
@@ -30,6 +29,7 @@ namespace ApiWebToken.Models
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Favorito> Favoritoes { get; set; }
+        [JsonIgnore]
         public virtual Usuario Usuario { get; set; }
     }
 }

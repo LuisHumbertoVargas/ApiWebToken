@@ -1,5 +1,3 @@
-
-
 namespace ApiWebToken.Models
 {
     using Newtonsoft.Json;
@@ -17,14 +15,12 @@ namespace ApiWebToken.Models
             this.Perfils = new HashSet<Perfil>();
         }
 
-        [Key]
         public int ID { get; set; }
         public string nickName { get; set; }
         public string email { get; set; }
         public string password { get; set; }
     
         [JsonIgnore]
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Perfil> Perfils { get; set; }
     }
