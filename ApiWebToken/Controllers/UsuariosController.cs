@@ -21,9 +21,9 @@ namespace ApiWebToken.Controllers
 
         // GET: api/Usuarios
         [HttpGet]
-        public IQueryable<Usuario> GetUsuarios()
+        public IEnumerable<Usuario> GetUsuarios()
         {
-            return db.Usuarios;
+            return db.Usuarios.ToList();
         }
 
         // GET: api/Usuarios/5

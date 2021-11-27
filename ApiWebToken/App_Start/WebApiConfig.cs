@@ -8,7 +8,6 @@ namespace ApiWebToken
         public static void Register(HttpConfiguration config)
         {
             // Configuración y servicios de API web
-
             // Rutas de API web
             config.MapHttpAttributeRoutes();
 
@@ -19,6 +18,10 @@ namespace ApiWebToken
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
+            config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+            config.Formatters.Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
         }
     }
 }

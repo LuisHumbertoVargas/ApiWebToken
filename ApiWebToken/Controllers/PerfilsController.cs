@@ -12,7 +12,7 @@ using ApiWebToken.Models;
 
 namespace ApiWebToken.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [RoutePrefix("api/Perfils")]
     public class PerfilsController : ApiController
     {
@@ -20,9 +20,9 @@ namespace ApiWebToken.Controllers
 
         // GET: api/Perfils
         [HttpGet]
-        public IQueryable<Perfil> GetPerfils()
+        public IEnumerable<Perfil> GetPerfils()
         {
-            return db.Perfils;
+            return db.Perfils.ToList();
         }
 
         // GET: api/Perfils/5
@@ -78,15 +78,13 @@ namespace ApiWebToken.Controllers
         // POST: api/Perfils
         [HttpPost]
         [ResponseType(typeof(Perfil))]
-        public IHttpActionResult PostPerfil(Perfil perfil, Usuario usuario)
+        // [FromBody]Perfil perfil
+        public IHttpActionResult PostPerfil(Perfil perfil)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            perfil.perfilID = perfil.perfilID;
-            perfil.usuarioID = usuario.ID;
 
             db.Perfils.Add(perfil);
             db.SaveChanges();

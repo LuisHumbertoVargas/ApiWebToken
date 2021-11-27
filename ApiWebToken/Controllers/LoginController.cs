@@ -34,8 +34,7 @@ namespace ApiWebToken.Controllers
             if (usuario == null)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
-            //TODO: Validate credentials Correctly. 
-            bool isCredentialValid = usuario.password == usuario.password;
+            bool isCredentialValid = (usuario.password == usuario.password);
             if (isCredentialValid)
             {
                 var token = TokenGenerator.GenerateTokenJwt(usuario.email);
