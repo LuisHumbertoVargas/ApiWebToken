@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MusicAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Artista">
+          <Key>
+            <PropertyRef Name="artistaID" />
+          </Key>
+          <Property Name="artistaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Cancion">
+          <Key>
+            <PropertyRef Name="cancionID" />
+          </Key>
+          <Property Name="cancionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="artistaID" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Favorito">
+          <Key>
+            <PropertyRef Name="favoritoID" />
+          </Key>
+          <Property Name="favoritoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="perfilID" Type="int" Nullable="false" />
+          <Property Name="cancionID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Perfil">
+          <Key>
+            <PropertyRef Name="perfilID" />
+          </Key>
+          <Property Name="perfilID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usuarioID" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+          <Property Name="apellido1" Type="varchar" MaxLength="50" />
+          <Property Name="apellido2" Type="varchar" MaxLength="50" />
+          <Property Name="edad" Type="varchar" MaxLength="50" />
+          <Property Name="sexo" Type="varchar" MaxLength="50" />
+          <Property Name="relacion" Type="varchar" MaxLength="50" />
+          <Property Name="religion" Type="varchar" MaxLength="50" />
+          <Property Name="ciudad" Type="varchar" MaxLength="50" />
+          <Property Name="pais" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nickName" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_Cancion_Artista">
+          <End Role="Artista" Type="Self.Artista" Multiplicity="1" />
+          <End Role="Cancion" Type="Self.Cancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artista">
+              <PropertyRef Name="artistaID" />
+            </Principal>
+            <Dependent Role="Cancion">
+              <PropertyRef Name="artistaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Favorito_Cancion">
+          <End Role="Cancion" Type="Self.Cancion" Multiplicity="1" />
+          <End Role="Favorito" Type="Self.Favorito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cancion">
+              <PropertyRef Name="cancionID" />
+            </Principal>
+            <Dependent Role="Favorito">
+              <PropertyRef Name="cancionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Favorito_Perfil">
+          <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
+          <End Role="Favorito" Type="Self.Favorito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perfil">
+              <PropertyRef Name="perfilID" />
+            </Principal>
+            <Dependent Role="Favorito">
+              <PropertyRef Name="perfilID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Perfil_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Perfil" Type="Self.Perfil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Perfil">
+              <PropertyRef Name="usuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MusicAppModelStoreContainer">
+          <EntitySet Name="Artista" EntityType="Self.Artista" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cancion" EntityType="Self.Cancion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Favorito" EntityType="Self.Favorito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Perfil" EntityType="Self.Perfil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Cancion_Artista" Association="Self.FK_Cancion_Artista">
+            <End Role="Artista" EntitySet="Artista" />
+            <End Role="Cancion" EntitySet="Cancion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favorito_Cancion" Association="Self.FK_Favorito_Cancion">
+            <End Role="Cancion" EntitySet="Cancion" />
+            <End Role="Favorito" EntitySet="Favorito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favorito_Perfil" Association="Self.FK_Favorito_Perfil">
+            <End Role="Perfil" EntitySet="Perfil" />
+            <End Role="Favorito" EntitySet="Favorito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Perfil_Usuario" Association="Self.FK_Perfil_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Perfil" EntitySet="Perfil" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MusicAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Artista">
+          <Key>
+            <PropertyRef Name="artistaID" />
+          </Key>
+          <Property Name="artistaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cancions" Relationship="Self.FK_Cancion_Artista" FromRole="Artista" ToRole="Cancion" />
+        </EntityType>
+        <EntityType Name="Cancion">
+          <Key>
+            <PropertyRef Name="cancionID" />
+          </Key>
+          <Property Name="cancionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="artistaID" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Artista" Relationship="Self.FK_Cancion_Artista" FromRole="Cancion" ToRole="Artista" />
+          <NavigationProperty Name="Favoritoes" Relationship="Self.FK_Favorito_Cancion" FromRole="Cancion" ToRole="Favorito" />
+        </EntityType>
+        <EntityType Name="Favorito">
+          <Key>
+            <PropertyRef Name="favoritoID" />
+          </Key>
+          <Property Name="favoritoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="perfilID" Type="Int32" Nullable="false" />
+          <Property Name="cancionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cancion" Relationship="Self.FK_Favorito_Cancion" FromRole="Favorito" ToRole="Cancion" />
+          <NavigationProperty Name="Perfil" Relationship="Self.FK_Favorito_Perfil" FromRole="Favorito" ToRole="Perfil" />
+        </EntityType>
+        <EntityType Name="Perfil">
+          <Key>
+            <PropertyRef Name="perfilID" />
+          </Key>
+          <Property Name="perfilID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usuarioID" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="apellido1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="apellido2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="edad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sexo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="relacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="religion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pais" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Favoritoes" Relationship="Self.FK_Favorito_Perfil" FromRole="Perfil" ToRole="Favorito" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Perfil_Usuario" FromRole="Perfil" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nickName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Perfils" Relationship="Self.FK_Perfil_Usuario" FromRole="Usuario" ToRole="Perfil" />
+        </EntityType>
+        <Association Name="FK_Cancion_Artista">
+          <End Role="Artista" Type="Self.Artista" Multiplicity="1" />
+          <End Role="Cancion" Type="Self.Cancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artista">
+              <PropertyRef Name="artistaID" />
+            </Principal>
+            <Dependent Role="Cancion">
+              <PropertyRef Name="artistaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Favorito_Cancion">
+          <End Role="Cancion" Type="Self.Cancion" Multiplicity="1" />
+          <End Role="Favorito" Type="Self.Favorito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cancion">
+              <PropertyRef Name="cancionID" />
+            </Principal>
+            <Dependent Role="Favorito">
+              <PropertyRef Name="cancionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Favorito_Perfil">
+          <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
+          <End Role="Favorito" Type="Self.Favorito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perfil">
+              <PropertyRef Name="perfilID" />
+            </Principal>
+            <Dependent Role="Favorito">
+              <PropertyRef Name="perfilID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Perfil_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Perfil" Type="Self.Perfil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Perfil">
+              <PropertyRef Name="usuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MusicAppEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Artistas" EntityType="Self.Artista" />
+          <EntitySet Name="Cancions" EntityType="Self.Cancion" />
+          <EntitySet Name="Favoritoes" EntityType="Self.Favorito" />
+          <EntitySet Name="Perfils" EntityType="Self.Perfil" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK_Cancion_Artista" Association="Self.FK_Cancion_Artista">
+            <End Role="Artista" EntitySet="Artistas" />
+            <End Role="Cancion" EntitySet="Cancions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favorito_Cancion" Association="Self.FK_Favorito_Cancion">
+            <End Role="Cancion" EntitySet="Cancions" />
+            <End Role="Favorito" EntitySet="Favoritoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Favorito_Perfil" Association="Self.FK_Favorito_Perfil">
+            <End Role="Perfil" EntitySet="Perfils" />
+            <End Role="Favorito" EntitySet="Favoritoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Perfil_Usuario" Association="Self.FK_Perfil_Usuario">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Perfil" EntitySet="Perfils" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MusicAppModelStoreContainer" CdmEntityContainer="MusicAppEntities">
+          <EntitySetMapping Name="Artistas">
+            <EntityTypeMapping TypeName="MusicAppModel.Artista">
+              <MappingFragment StoreEntitySet="Artista">
+                <ScalarProperty Name="artistaID" ColumnName="artistaID" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cancions">
+            <EntityTypeMapping TypeName="MusicAppModel.Cancion">
+              <MappingFragment StoreEntitySet="Cancion">
+                <ScalarProperty Name="cancionID" ColumnName="cancionID" />
+                <ScalarProperty Name="artistaID" ColumnName="artistaID" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Favoritoes">
+            <EntityTypeMapping TypeName="MusicAppModel.Favorito">
+              <MappingFragment StoreEntitySet="Favorito">
+                <ScalarProperty Name="favoritoID" ColumnName="favoritoID" />
+                <ScalarProperty Name="perfilID" ColumnName="perfilID" />
+                <ScalarProperty Name="cancionID" ColumnName="cancionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Perfils">
+            <EntityTypeMapping TypeName="MusicAppModel.Perfil">
+              <MappingFragment StoreEntitySet="Perfil">
+                <ScalarProperty Name="perfilID" ColumnName="perfilID" />
+                <ScalarProperty Name="usuarioID" ColumnName="usuarioID" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellido1" ColumnName="apellido1" />
+                <ScalarProperty Name="apellido2" ColumnName="apellido2" />
+                <ScalarProperty Name="edad" ColumnName="edad" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="relacion" ColumnName="relacion" />
+                <ScalarProperty Name="religion" ColumnName="religion" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="pais" ColumnName="pais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="MusicAppModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="nickName" ColumnName="nickName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
